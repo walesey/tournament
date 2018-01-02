@@ -1,0 +1,14 @@
+.field {
+  padding: 16px;
+  background-color: #eef;
+}
+
+.field:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.image {
+  width: 16px;
+  height: 16px;
+  margin-left: 12px;
+}

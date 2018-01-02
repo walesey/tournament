@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+}
+
+.link {
+  padding: 4px 12px;
+  margin: 0 5px 0 0;
+  background-color: #777;
+}
+
+.link:hover {
+  background-color: #555;
+}
+
+.link:active {
+  background-color: #333;
+}
+
+.link a {
+  text-decoration: none;
+  color: #000;
+  font-size: 24px;
+}

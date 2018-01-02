@@ -1,0 +1,32 @@
+.root {
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+}
+
+.heading {
+  text-align: center;
+  font-size: 32px;
+  padding: 16px
+}
+
+.headingLink {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbarDiv {
+  background-color: #999;
+}
+
+.navbar {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}

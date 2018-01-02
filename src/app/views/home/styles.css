@@ -1,0 +1,56 @@
+.root {
+  background-color: black;
+}
+
+@media (min-width: 500px) {
+  .root {
+    display: flex;
+  }
+}
+
+.left {
+  padding: 10px;
+}
+
+.middle {
+  width: 100%;
+  padding: 10px;
+}
+
+.right {
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.deploymentMap {
+  width: 200px;
+  min-height: 200px;
+  margin: 0 0 40px 0;
+  background-color: red;
+}
+
+.roundPairings {
+  width: 200px;
+  min-height: 200px;
+  background-color: blue;
+}
+
+.title {
+  padding: 40px 0px;
+  font-size: 2em;
+  text-align: center;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 200px;
+}
+
+.leaderboard {
+  width: 200px;
+  min-height: 200px;
+  background-color: yellow;
+}
