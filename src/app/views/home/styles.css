@@ -1,43 +1,43 @@
 .root {
+  padding: 70px 15px;
   background-color: black;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 900px) {
   .root {
     display: flex;
   }
 }
 
 .left {
-  padding: 10px;
+  padding: 20px;
 }
 
 .middle {
   width: 100%;
-  padding: 10px;
+  padding: 20px;
 }
 
 .right {
   justify-content: flex-end;
-  padding: 10px;
+  padding: 20px;
 }
 
 .deploymentMap {
   width: 200px;
   min-height: 200px;
   margin: 0 0 40px 0;
-  background-color: red;
 }
 
-.roundPairings {
+.matches {
   width: 200px;
   min-height: 200px;
-  background-color: blue;
+  background-color: #222;
 }
 
 .title {
   padding: 40px 0px;
-  font-size: 2em;
+  font-size: 1.7em;
   text-align: center;
 }
 
@@ -47,10 +47,17 @@
   justify-content: center;
   width: 100%;
   min-height: 200px;
+  border-color: lightgrey;
+  border-style: solid;
 }
 
 .leaderboard {
   width: 200px;
-  min-height: 200px;
-  background-color: yellow;
+  min-height: 420px;
+  border-color: lightgrey;
+  border-style: solid;
+}
+
+.image {
+  width: 100%;
 }

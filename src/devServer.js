@@ -15,7 +15,7 @@ app.use((req, res) => {
     res.status(200).send(`<!DOCTYPE html>
 <html>
   <head>
-    <title>Waleseynet-CMS-Dev-Server</title>
+    <title>Tournament</title>
     <link href='/styles.css' rel='stylesheet'/>
   </head>
   <body>

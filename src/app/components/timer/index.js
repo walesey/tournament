@@ -10,38 +10,49 @@ var cx = classnames.bind(styles);
 export default class Timer extends Component {
 
   state = {
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    time: 0,
   };
 
   componentDidMount() {
     const ticker = setInterval(this.tick, 1000);
-    this.setState({ ticker })
+    this.setState({ ticker });
   }
 
   componentWillUnmount() {
     clearInterval(this.state.ticker);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ time: nextProps.time });
+  }
+
   tick = () => {
-    const timestamp = Date.now();
-    const seconds = (this.props.end - timestamp) / 1000;
-    this.setState({
-      hours: Math.floor(seconds / 3600),
-      minutes: Math.floor(Math.floor(seconds / 60) % 60),
-      seconds: Math.floor(seconds % 60),
-    });
+    if (!this.props.enabled) {
+      return;
+    }
+    this.setState({ time: this.state.time + 1 });
   }
 
   render() {
-    const { className } = this.props;
-    const { hours, minutes, seconds } = this.state;
+    const { className, limit, overtime } = this.props;
+    const { time } = this.state;
+
+    const red = time >= limit;
+    const finished = time >= (limit + overtime);
+    const clockTime = limit - time + (red ? overtime : 0);
+
+    const hours = Math.floor(clockTime / 3600);
+    const minutes = Math.floor(Math.floor(clockTime / 60) % 60);
+    const seconds = Math.floor(clockTime % 60);
     
     return (
       <div className={cx('root', className)}>
-        <div className={styles.timer}>
-          {`${pad0(hours, 2)}:${pad0(minutes, 2)}:${pad0(seconds, 2)}`}
+        <div className={cx('timer', { red })}>
+          {
+            finished 
+            ? 'TIMES UP'
+            : `${pad0(hours, 2)}:${pad0(minutes, 2)}:${pad0(seconds, 2)}`
+          }
         </div>
       </div>
     );

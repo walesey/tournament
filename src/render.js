@@ -5,13 +5,13 @@ import { compose, applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { ReduxRouter } from 'redux-router';
 import { reduxReactRouter, match } from 'redux-router/server';
-import thunkMiddleware from 'redux-thunk'
+import thunkMiddleware from 'redux-thunk';
 import serialize from 'serialize-javascript';
 
 import reducer from 'app/reducers';
 import routes from 'app/routes';
 import { errorMessage } from 'app/actions/errors';
-import Html from 'app/components/html'
+import Html from 'app/components/html';
 
 export default function render(req, res) {
   const store = compose(
@@ -37,7 +37,7 @@ export default function render(req, res) {
 
     const initialState = serialize(state);
     const content = renderToString(
-      <Html title="WaleseyCms" scripts={['/client.js']} stylesheets={['/styles.css']} initialState={initialState}>
+      <Html title="Tournament" scripts={['/client.js']} stylesheets={['/styles.css']} initialState={initialState}>
         <Provider store={store}>
           <ReduxRouter routes={routes} />
         </Provider>

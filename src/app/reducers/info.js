@@ -1,25 +1,27 @@
 import {
-  REQUEST_CONTENT,
-  REQUEST_CONTENT_SUCCESS,
-  REQUEST_CONTENT_ERROR,
-} from 'app/actions/content';
+  REQUEST_INFO,
+  REQUEST_INFO_SUCCESS,
+  REQUEST_INFO_ERROR,
+} from 'app/actions/info';
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case REQUEST_CONTENT:
+    case REQUEST_INFO:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case REQUEST_CONTENT_SUCCESS:
+    case REQUEST_INFO_SUCCESS:
       return {
         ...state,
         loading: false,
-        content: action.content,
+        roundIndex: action.info.roundIndex,
+        timerOn: action.info.timerOn,
+        timerSeconds: action.info.timerSeconds,
         error: null,
       };
-    case REQUEST_CONTENT_ERROR:
+    case REQUEST_INFO_ERROR:
       return {
         ...state,
         loading: false,

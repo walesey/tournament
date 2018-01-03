@@ -2,10 +2,18 @@ import { combineReducers } from 'redux';
 import { routerStateReducer } from 'redux-router';
 
 import errors from './errors';
-import content from './content';
+import config from './config';
+import info from './info';
+import games from './games';
+import rounds from './rounds';
+import players from './players';
 
 export default combineReducers({
     router: routerStateReducer,
-    content,
     errors,
+    config,
+    info,
+    games,
+    rounds,
+    players,
 });

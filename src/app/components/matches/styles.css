@@ -1,0 +1,12 @@
+.root {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 10px;
+  background-color: #222;
+}
+
+.match {
+  margin: 5px;
+  padding: 5px;
+  background-color: #444;
+}
