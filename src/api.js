@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import morgan from 'morgan';
 
 import fs from 'fs';
@@ -14,7 +15,7 @@ const saveGames = (games) => fs.writeFileSync('data/games.json', JSON.stringify(
 const savePlayers = (players) => fs.writeFileSync('data/players.json', JSON.stringify(players, null, 2));
 
 // Sort by player points
-function ByPoints(a,b) {
+function ByPoints(a, b) {
   if (a.points < b.points)
     return 1;
   if (a.points > b.points)
@@ -91,6 +92,7 @@ function newRound() {
     newGames.push({
       table: table.name,
       round: newRoundIndex,
+      results: [],
       players: players
         .sort(ByPoints)
         .reduce((acc, player) => {
@@ -126,6 +128,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(morgan('common'));
+app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
@@ -160,6 +163,30 @@ app.get('/auth/clock/stop', (req, res) => {
 
 app.get('/auth/newRound', (req, res) => {
   newRound();
+  res.json(loadGames());
+});
+
+app.put('/auth/games/:game/players', (req, res) => {
+  const games = loadGames();
+  const index = parseInt(req.params.game);
+  if (index >= 0 && index < games.length) {
+    saveGames(games.map((game, i) => ({
+      ...game,
+      players: i === index ? [req.body[0], req.body[1]] : game.players,
+    })));
+  }
+  res.json(loadGames());
+});
+
+app.put('/games/:game/results', (req, res) => {
+  const games = loadGames();
+  const index = parseInt(req.params.game);
+  if (index >= 0 && index < games.length) {
+    saveGames(games.map((game, i) => ({
+      ...game,
+      results: i === index ? [parseInt(req.body[0]), parseInt(req.body[1])] : game.results,
+    })));
+  }
   res.json(loadGames());
 });
 

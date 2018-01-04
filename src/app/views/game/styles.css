@@ -1,2 +1,15 @@
 .root {
+  text-align: center;
+  padding: 20px;
+}
+
+.players {
+}
+
+.scores {
+  padding: 20px 0;
+}
+
+.input {
+  padding: 5px 0;
 }

@@ -1,47 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'redux-router';
-import { deleteRequest } from 'app/lib/http';
-import config from 'app/config';
-// import { submitImageData } from 'app/actions/images';
+import { Link } from 'react-router';
 
-import buttonStyles from 'app/assets/styles/buttons.css';
+import config from 'app/config';
+import { getRequest } from 'app/lib/http';
+import { requestGames } from 'app/actions/games';
+
 import styles from './styles.css';
 
-const mapStateToProps = ({ images }, { params }) => {
+const mapStateToProps = ({ games }, { params }) => {
   return {
-    imageName: params.imageName,
-    loading: images.loading,
-    error: images.error,
+    loading: games.loading,
+    error: games.error,
+    games: games.games,
   }
 }
 
+const refreshData = (dispatch) => {
+  dispatch(getRequest(`${config.apiEndpoint}/games`, requestGames));
+}
+
 const mapDispatchToProps = (dispatch) => {
+  refreshData(dispatch);
   return { dispatch };
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class Games extends Component {
-  onClickDelete = (event) => {
-    const { dispatch, imageName } = this.props;
-    dispatch(deleteRequest(`${config.apiEndpoint}/images?name=${imageName}`, null, {
-      ...submitImageData,
-      successFn: (url, body) => {
-        dispatch(push('/images'));
-        return submitImageData.successFn(url, body);
-      },
-    }));
-  }
-  
+export default class GamesView extends Component {
   render() {
-    const { loading, error, imageName } = this.props;
+    const { games } = this.props;
 
     return (
       <div className={styles.root}>
-        <img className={styles.image} src={`${config.apiEndpoint}/images?name=${imageName}`} />
-        <button className={buttonStyles.button} onClick={this.onClickDelete}>Delete</button>
-        {loading && <p>LOADING...</p>}
-        {error && <p>{`ERROR: ${error}`}</p>}
+        <h2>Games</h2>
+        {games && games.map((g, i) => (
+          <div key={i} className={styles.game}>
+            <Link to={`/games/${i}`}>
+              {
+                (g.players && g.players.length >= 2) &&
+                (g.results && g.results.length >= 2) 
+                ? `${g.table} : ${g.players[0]}(${g.results[0]}) vs ${g.players[1]}(${g.results[1]})`
+                : `${g.table} : ${g.players[0]} vs ${g.players[1]}`
+              }
+            </Link>
+          </div>
+        ))}
       </div>
     );
   }
