@@ -11,7 +11,7 @@ import { requestPlayers } from 'app/actions/players';
 import { setPassword } from 'app/actions/auth';
 import Timer from 'app/components/timer';
 import Leaderboard from 'app/components/leaderboard';
-import Matches from 'app/components/matches';
+import Matches, { byRound } from 'app/components/matches';
 import Messages from 'app/components/messages';
 
 import buttonStyles from 'app/assets/styles/buttons.css';
@@ -110,7 +110,7 @@ export default class HomeView extends Component {
             <img className={styles.image} src={`${config.apiEndpoint}/images/${image}`} />
           </div>
           <div className={styles.matches}>
-            <Matches games={games} round={roundIndex}></Matches>
+            <Matches games={games} matcher={byRound(roundIndex)} />
           </div>
         </div>
         <div className={styles.middle}>
@@ -120,8 +120,8 @@ export default class HomeView extends Component {
               time={timerSeconds} 
               limit={gameLengthSeconds} 
               overtime={overtimeSeconds} 
-              enabled={timerOn}>
-            </Timer>
+              enabled={timerOn} 
+            />
           </div>
           <div className={styles.buttons}>
             <button className={buttonStyles.button} onClick={this.onClickStart}>Start</button>
@@ -133,7 +133,7 @@ export default class HomeView extends Component {
         </div>
         <div className={styles.right}>
           <div className={styles.leaderboard}>
-            <Leaderboard players={players} games={games}></Leaderboard>
+            <Leaderboard players={players} games={games} />
           </div>
         </div>
       </div>
