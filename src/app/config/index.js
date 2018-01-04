@@ -1,3 +1,3 @@
 export default {
-  apiEndpoint: 'http://localhost:4000',
+  apiEndpoint: 'http://walesey.net:8080',
 };
