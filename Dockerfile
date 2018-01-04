@@ -1,4 +1,4 @@
-from node:8
+from node:6
 
 COPY ./ /opt/app/
 WORKDIR /opt/app/
