@@ -166,6 +166,13 @@ app.get('/auth/newRound', (req, res) => {
   res.json(loadGames());
 });
 
+app.put('/auth/players/:name', (req, res) => {
+  const players = loadPlayers();
+  const name = req.params.name;
+  savePlayers(players.map(p => p.name === name ? req.body : p));
+  res.json(loadPlayers());
+});
+
 app.put('/auth/games/:game/players', (req, res) => {
   const games = loadGames();
   const index = parseInt(req.params.game);

@@ -3,6 +3,19 @@
   padding: 20px;
 }
 
-.player {
+.score {
+  padding: 0 0 20px 0;
+}
 
+.submitButton {
+  padding: 10px;
+}
+
+.password {
+  opacity: 0.5;
+}
+
+.messages {
+  color: greenyellow;
+  padding: 10px;
 }

@@ -60,7 +60,7 @@ export default class GameView extends Component {
     const { dispatch, index } = this.props;
     const { score1, score2 } = this.state;
     const url = `${config.apiEndpoint}/games/${index}/results`;
-    dispatch(putRequest(url, [ score1, score2 ], requestGames));
+    dispatch(putRequest(url, [ parseInt(score1), parseInt(score2) ], requestGames));
   }
 
   submitPlayers = () => {
@@ -78,13 +78,16 @@ export default class GameView extends Component {
 
     return (
       <div className={styles.root}>
+        <h2>{`${table}`}</h2>
+
+        <label>Players</label>
         <div className={styles.players}>
-          <h2>{`${table}`}</h2>
           <input className={styles.input} name="player1" type="text" value={player1} onChange={this.handleInputChange} />
           {' vs '}
           <input className={styles.input} name="player2" type="text" value={player2} onChange={this.handleInputChange} />
         </div>
 
+        <label>Scores</label>
         <div className={styles.scores}>
           <input className={styles.input} name="score1" type="text" value={score1} onChange={this.handleInputChange} />
           {' vs '}
