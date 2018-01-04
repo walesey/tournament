@@ -73,8 +73,17 @@ function step() {
 function newRound() {
   const games = loadGames();
   const state = loadState();
-  const players = loadPlayers();
+  const playersRaw = loadPlayers();
   const config = loadConfig();
+
+  const players = playersRaw.map(player => ({
+    ...player,
+    points: games.reduce((acc, value) => {
+      const index = value.players.indexOf(player.name);
+      const score = (index >= 0 && value.results && index < value.results.length) ? value.results[index] : 0;
+      return acc + score;
+    }, player.points),
+  }));
 
   const newRoundIndex = state.roundIndex + 1;
   const newGames = [];
