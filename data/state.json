@@ -1,5 +1,6 @@
 {
-  "roundIndex": 0,
+  "roundIndex": -1,
   "timerOn": false,
-  "timerSeconds": 0
+  "timerSeconds": 0,
+  "publicWriteEnabled": true
 }

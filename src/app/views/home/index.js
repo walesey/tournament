@@ -80,6 +80,14 @@ export default class HomeView extends Component {
     this.authRequest(`${config.apiEndpoint}/auth/newRound`, requestNewRound);
   }
 
+  onClickPublicWriteEnable = () => {
+    this.authRequest(`${config.apiEndpoint}/auth/publicWrite/enable`, requestInfo);
+  }
+
+  onClickPublicWriteDisable = () => {
+    this.authRequest(`${config.apiEndpoint}/auth/publicWrite/disable`, requestInfo);
+  }
+
   handleInputChange = (event) => {
     const { value, name } = getFieldValues(event);
     const { dispatch } = this.props;
@@ -128,7 +136,9 @@ export default class HomeView extends Component {
             <button className={buttonStyles.button} onClick={this.onClickStop}>Stop</button>
             <button className={buttonStyles.button} onClick={this.onClickNewRound}>New Round</button>
           </div>
-          <input className={styles.password} name="Password" type="password" onChange={this.handleInputChange} />
+          <input className={styles.hidden} name="Password" type="password" onChange={this.handleInputChange} />
+          <button className={styles.hidden} onClick={this.onClickPublicWriteDisable}>r</button>
+          <button className={styles.hidden} onClick={this.onClickPublicWriteEnable}>w</button>
           <Messages className={styles.messages} error={error} />
         </div>
         <div className={styles.right}>

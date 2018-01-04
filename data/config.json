@@ -1,6 +1,6 @@
 {
-  "gameLengthSeconds": 5400,
-  "overtimeSeconds": 5400,
+  "gameLengthSeconds": 1000,
+  "overtimeSeconds": 1000,
   "tables": [
     {
       "name": "Table 1",

@@ -166,6 +166,16 @@ app.get('/auth/newRound', (req, res) => {
   res.json(loadGames());
 });
 
+app.get('/auth/publicWrite/enable', (req, res) => {
+  saveState({...loadState(), publicWriteEnabled: true});
+  res.json(loadState());
+});
+
+app.get('/auth/publicWrite/disable', (req, res) => {
+  saveState({...loadState(), publicWriteEnabled: false});
+  res.json(loadState());
+});
+
 app.put('/auth/players/:name', (req, res) => {
   const players = loadPlayers();
   const name = req.params.name;
@@ -186,13 +196,15 @@ app.put('/auth/games/:game/players', (req, res) => {
 });
 
 app.put('/games/:game/results', (req, res) => {
-  const games = loadGames();
-  const index = parseInt(req.params.game);
-  if (index >= 0 && index < games.length) {
-    saveGames(games.map((game, i) => ({
-      ...game,
-      results: i === index ? [parseInt(req.body[0]), parseInt(req.body[1])] : game.results,
-    })));
+  if (loadState().publicWriteEnabled) {
+    const games = loadGames();
+    const index = parseInt(req.params.game);
+    if (index >= 0 && index < games.length) {
+      saveGames(games.map((game, i) => ({
+        ...game,
+        results: i === index ? [parseInt(req.body[0]), parseInt(req.body[1])] : game.results,
+      })));
+    }
   }
   res.json(loadGames());
 });
