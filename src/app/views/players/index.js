@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import config from 'app/config';
 import { getRequest } from 'app/lib/http';
 import { requestPlayers } from 'app/actions/players';
+import Messages from 'app/components/messages';
 
 import styles from './styles.css';
 
@@ -28,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class PlayersView extends Component {
   render() {
-    const { players } = this.props;
+    const { players, loading, error } = this.props;
 
     return (
       <div className={styles.root}>
@@ -40,6 +41,7 @@ export default class PlayersView extends Component {
             </Link>
           </div>
         ))}
+        <Messages className={styles.messages} loading={loading} error={error} />
       </div>
     );
   }

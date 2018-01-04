@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import config from 'app/config';
 import { getRequest } from 'app/lib/http';
 import { requestGames } from 'app/actions/games';
+import Messages from 'app/components/messages';
 
 import styles from './styles.css';
 
@@ -28,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class GamesView extends Component {
   render() {
-    const { games } = this.props;
+    const { games, loading, error } = this.props;
 
     return (
       <div className={styles.root}>
@@ -45,6 +46,7 @@ export default class GamesView extends Component {
             </Link>
           </div>
         ))}
+        <Messages className={styles.messages} loading={loading} error={error} />
       </div>
     );
   }

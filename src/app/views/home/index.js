@@ -12,6 +12,7 @@ import { setPassword } from 'app/actions/auth';
 import Timer from 'app/components/timer';
 import Leaderboard from 'app/components/leaderboard';
 import Matches from 'app/components/matches';
+import Messages from 'app/components/messages';
 
 import buttonStyles from 'app/assets/styles/buttons.css';
 import styles from './styles.css';
@@ -95,6 +96,8 @@ export default class HomeView extends Component {
       round,
       players,
       games,
+      loading,
+      error,
     } = this.props;
 
     const title = round.title || 'No active round';
@@ -126,7 +129,7 @@ export default class HomeView extends Component {
             <button className={buttonStyles.button} onClick={this.onClickNewRound}>New Round</button>
           </div>
           <input className={styles.password} name="Password" type="password" onChange={this.handleInputChange} />
-          {/* TODO: loading spinner and error messages */}
+          <Messages className={styles.messages} loading={loading} error={error} />
         </div>
         <div className={styles.right}>
           <div className={styles.leaderboard}>

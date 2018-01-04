@@ -26,3 +26,7 @@
 .password {
   opacity: 0.5;
 }
+
+.messages {
+  padding: 10px;
+}

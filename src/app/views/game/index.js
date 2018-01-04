@@ -7,6 +7,7 @@ import { genericRequest, getRequest, putRequest } from 'app/lib/http';
 import { getFieldValues } from 'app/lib/forms';
 import { requestGames, setScore } from 'app/actions/games';
 import { setPassword } from 'app/actions/auth';
+import Messages from 'app/components/messages';
 
 import buttonStyles from 'app/assets/styles/buttons.css';
 import styles from './styles.css';
@@ -72,7 +73,7 @@ export default class GameView extends Component {
   }
   
   render() {
-    const { game } = this.props;
+    const { game, loading, error } = this.props;
     const { score1, score2, player1, player2 } = this.state;
     const table = game && game.table;
 
@@ -101,6 +102,7 @@ export default class GameView extends Component {
           <button onClick={this.submitPlayers}>Submit Player Names</button>
         </div>          
         <input className={styles.password} name="Password" type="password" onChange={this.handlePasswordChange} />
+        <Messages className={styles.messages} loading={loading} error={error} />
       </div>
     );
   }

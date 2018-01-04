@@ -7,6 +7,7 @@ import { genericRequest, getRequest } from 'app/lib/http';
 import { getFieldValues } from 'app/lib/forms';
 import { setPassword } from 'app/actions/auth';
 import { requestPlayers } from 'app/actions/players';
+import Messages from 'app/components/messages';
 
 import buttonStyles from 'app/assets/styles/buttons.css';
 import styles from './styles.css';
@@ -75,10 +76,7 @@ export default class PlayerView extends Component {
           <button className={buttonStyles.button} onClick={this.handleSubmit}>Submit</button>          
         </div>        
         <input className={styles.password} name="Password" type="password" onChange={this.handlePasswordChange} />
-        <div className={styles.messages}>
-          {loading && <span>LOADING...</span>}
-          {error && <span>{`ERROR: ${error}`}</span>}
-        </div>
+        <Messages className={styles.messages} loading={loading} error={error} />
       </div>
     );
   }
