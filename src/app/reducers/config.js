@@ -18,6 +18,8 @@ export default function (state = {}, action) {
         loading: false,
         gameLengthSeconds: action.config.gameLengthSeconds,
         overtimeSeconds: action.config.overtimeSeconds,
+        rounds: action.config.rounds,
+        tables: action.config.tables,
         error: null,
       };
     case REQUEST_CONFIG_ERROR:

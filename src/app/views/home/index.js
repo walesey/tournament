@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import config from 'app/config';
-import { getRequest, putRequest } from 'app/lib/http';
-import { requestInfo } from 'app/actions/info';
+import { genericRequest, getRequest } from 'app/lib/http';
+import { getFieldValues } from 'app/lib/forms';
+import { requestInfo, requestToggleClock } from 'app/actions/info';
 import { requestConfig } from 'app/actions/config';
-import { requestRounds } from 'app/actions/rounds';
-import { requestGames } from 'app/actions/games';
+import { requestGames, requestNewRound } from 'app/actions/games';
 import { requestPlayers } from 'app/actions/players';
+import { setPassword } from 'app/actions/auth';
 import Timer from 'app/components/timer';
 import Leaderboard from 'app/components/leaderboard';
 import Matches from 'app/components/matches';
@@ -15,39 +16,82 @@ import Matches from 'app/components/matches';
 import buttonStyles from 'app/assets/styles/buttons.css';
 import styles from './styles.css';
 
-const mapStateToProps = ({ info, config, rounds, games, players }, { params }) => {
+const mapStateToProps = ({ info, config, games, players, auth }, { params }) => {
   const index = info.roundIndex;
   return {
-    loading: info.loading || config.loading || rounds.loading,
-    error: info.error || config.error || rounds.error,
+    loading: info.loading || config.loading || games.loading || players.loading,
+    error: info.error || config.error || games.error || players.error,
     timerOn: info.timerOn,
     timerSeconds: info.timerSeconds,
     gameLengthSeconds: config.gameLengthSeconds,
     overtimeSeconds: config.overtimeSeconds,
-    round: rounds.rounds != null && index < rounds.rounds.length && rounds.rounds[index],
+    roundIndex: index,
+    round: config.rounds != null && index >= 0 && index < config.rounds.length && config.rounds[index],
     players: players.players,
     games: games.games,
+    password: auth.password,
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const refreshData = (dispatch) => {
   dispatch(getRequest(`${config.apiEndpoint}/state`, requestInfo));
   dispatch(getRequest(`${config.apiEndpoint}/config`, requestConfig));
-  dispatch(getRequest(`${config.apiEndpoint}/rounds`, requestRounds));
   dispatch(getRequest(`${config.apiEndpoint}/games`, requestGames));
   dispatch(getRequest(`${config.apiEndpoint}/players`, requestPlayers));
+}
+
+const mapDispatchToProps = (dispatch) => {
+  refreshData(dispatch);
   return { dispatch };
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class HomeView extends Component {
-  render() {
 
+  componentDidMount() {
+    const refreshIntervalId = setInterval(this.refresh, 5000);
+    this.setState({ refreshIntervalId });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.refreshIntervalId);
+  }
+
+  refresh = () => {
+    refreshData(this.props.dispatch);
+  }
+  
+  authRequest(url, actions) {
+    const { dispatch, password } = this.props;
+    const headers = { 'Authorization': password };
+    dispatch(genericRequest(url, null, 'GET', headers, actions));
+  }
+
+  onClickStart = () => {
+    this.authRequest(`${config.apiEndpoint}/auth/clock/start`, requestToggleClock);
+  }
+
+  onClickStop = () => {
+    this.authRequest(`${config.apiEndpoint}/auth/clock/stop`, requestToggleClock);
+  }
+
+  onClickNewRound = () => {
+    this.authRequest(`${config.apiEndpoint}/auth/newRound`, requestNewRound);
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = getFieldValues(event);
+    const { dispatch } = this.props;
+    dispatch(setPassword(value));
+  }
+
+  render() {
     const {
       timerOn,
       timerSeconds,
       gameLengthSeconds,
       overtimeSeconds,
+      roundIndex,
       round,
       players,
       games,
@@ -63,7 +107,7 @@ export default class HomeView extends Component {
             <img className={styles.image} src={`${config.apiEndpoint}/images/${image}`} />
           </div>
           <div className={styles.matches}>
-            <Matches games={games}></Matches>
+            <Matches games={games} round={roundIndex}></Matches>
           </div>
         </div>
         <div className={styles.middle}>
@@ -76,6 +120,13 @@ export default class HomeView extends Component {
               enabled={timerOn}>
             </Timer>
           </div>
+          <div className={styles.buttons}>
+            <button className={buttonStyles.button} onClick={this.onClickStart}>Start</button>
+            <button className={buttonStyles.button} onClick={this.onClickStop}>Stop</button>
+            <button className={buttonStyles.button} onClick={this.onClickNewRound}>New Round</button>
+          </div>
+          <input className={styles.password} name="Password" type="password" onChange={this.handleInputChange} />
+          {/* TODO: loading spinner and error messages */}
         </div>
         <div className={styles.right}>
           <div className={styles.leaderboard}>

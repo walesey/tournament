@@ -3,16 +3,54 @@ import morgan from 'morgan';
 
 import fs from 'fs';
 
-  // fs.writeFileSync(filename, JSON.stringify(student));
+const loadAuth = () => JSON.parse(fs.readFileSync('data/auth.json'));
 const loadConfig = () => JSON.parse(fs.readFileSync('data/config.json'));
 const loadState = () => JSON.parse(fs.readFileSync('data/state.json'));
-const loadRounds = () => JSON.parse(fs.readFileSync('data/rounds.json'));
 const loadGames = () => JSON.parse(fs.readFileSync('data/games.json'));
 const loadPlayers = () => JSON.parse(fs.readFileSync('data/players.json'));
 
 const saveState = (state) => fs.writeFileSync('data/state.json', JSON.stringify(state, null, 2));
 const saveGames = (games) => fs.writeFileSync('data/games.json', JSON.stringify(games, null, 2));
 const savePlayers = (players) => fs.writeFileSync('data/players.json', JSON.stringify(players, null, 2));
+
+// Sort by player points
+function ByPoints(a,b) {
+  if (a.points < b.points)
+    return 1;
+  if (a.points > b.points)
+    return -1;
+  return 0;
+}
+
+// Determine if a match up of players has already occured in games list
+function matchHasOccured(playersNames, games) {
+  let occured = false;
+  games.forEach(game => {
+    let match = true;
+    const players1 = playersNames.sort();
+    const players2 = game.players.sort();
+    for (let i=0; i<players1.length; i++) {
+      if (players1.length !== players2.length || players1[i] !== players2[i]) {
+        match = false;
+      }
+    }
+
+    if (match) {
+      occured = true;
+    }
+  });
+  return occured;
+}
+
+function playerInGame(playerName, games) {
+  let inGame = false;
+  games.forEach(game => game.players.forEach(player => {
+    if (player === playerName) {
+      inGame = true;
+    }
+  }));
+  return inGame;
+}
 
 /*
   1 second UPDATE LOOP
@@ -23,11 +61,52 @@ function step() {
 
   const newTimerSeconds = state.timerOn ? state.timerSeconds + 1: state.timerSeconds;
 
-
-
   saveState({
     ...state,
     timerSeconds: newTimerSeconds,
+  });
+}
+
+/*
+  Function that auto creates the next round of games.
+*/
+function newRound() {
+  const games = loadGames();
+  const state = loadState();
+  const players = loadPlayers();
+  const config = loadConfig();
+
+  const newRoundIndex = state.roundIndex + 1;
+  const newGames = [];
+  config.tables.forEach(table => {
+    newGames.push({
+      table: table.name,
+      round: newRoundIndex,
+      players: players
+        .sort(ByPoints)
+        .reduce((acc, player) => {
+          if (playerInGame(player.name, newGames) || acc.length === 2) {
+            return acc;
+          }
+          if (acc.length === 0) {
+            return [ player.name ];
+          }
+          if (matchHasOccured([ ...acc, player.name ], games)) {
+            return acc;
+          }
+          return [ ...acc, player.name ];
+        }, []),
+    });
+  });
+
+  saveGames([
+    ...games,
+    ...newGames,
+  ]);
+  saveState({
+    roundIndex: newRoundIndex,
+    timerOn: false,
+    timerSeconds: 0,
   });
 }
 
@@ -49,9 +128,34 @@ app.use((req, res, next) => {
 
 app.use('/images', express.static('data/images'));
 
+app.use('/auth', (req, res, next) => {
+  const token = req.get('Authorization');
+  if (req.method !== 'OPTIONS' && token != loadAuth().adminToken) {
+    res.statusCode = 401;
+    var e = new Error('Not Authorized');
+    next(e);
+    return
+  }
+  next();
+});
+
+app.get('/auth/clock/start', (req, res) => {
+  saveState({...loadState(), timerOn: true});
+  res.json(loadState());
+});
+
+app.get('/auth/clock/stop', (req, res) => {
+  saveState({...loadState(), timerOn: false});
+  res.json(loadState());
+});
+
+app.get('/auth/newRound', (req, res) => {
+  newRound();
+  res.json(loadGames());
+});
+
 app.get('/config', (req, res) => res.json(loadConfig()));
 app.get('/state', (req, res) => res.json(loadState()));
-app.get('/rounds', (req, res) => res.json(loadRounds()));
 app.get('/games', (req, res) => res.json(loadGames()));
 app.get('/players', (req, res) => res.json(loadPlayers()));
 

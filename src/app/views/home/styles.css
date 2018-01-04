@@ -1,11 +1,14 @@
 .root {
   padding: 70px 15px;
   background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media (min-width: 900px) {
   .root {
-    display: flex;
+    flex-direction: row;
   }
 }
 
@@ -19,14 +22,15 @@
 }
 
 .right {
-  justify-content: flex-end;
   padding: 20px;
+  justify-content: flex-end;
 }
 
 .deploymentMap {
   width: 200px;
   min-height: 200px;
   margin: 0 0 40px 0;
+  justify-content: center;
 }
 
 .matches {
@@ -51,6 +55,14 @@
   border-style: solid;
 }
 
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 40px 0;
+  justify-content: center;  
+}
+
 .leaderboard {
   width: 200px;
   min-height: 420px;
@@ -60,4 +72,8 @@
 
 .image {
   width: 100%;
+}
+
+.password {
+  opacity: 0.5;
 }

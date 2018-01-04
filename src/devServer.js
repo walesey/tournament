@@ -16,6 +16,7 @@ app.use((req, res) => {
 <html>
   <head>
     <title>Tournament</title>
+    <meta name="viewport" content="width=device-width"></meta>
     <link href='/styles.css' rel='stylesheet'/>
   </head>
   <body>

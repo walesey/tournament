@@ -3,7 +3,7 @@
   margin: 4px;
   padding: 0 32px;
   border-radius: 8px;
-  background-color: #77f;
+  background-color: #d00;
   color: #fff;
   font-size: 16px;
   font-family: Arial, Helvetica, sans-serif;
@@ -11,10 +11,10 @@
 }
 
 .button:hover {
-  background-color: #99f;
+  background-color: #e55;
 }
 
 .button:active {
-  background-color: #bbf;
+  background-color: #f88;
   box-shadow: 1px 1px 4px 0px #557;
 }

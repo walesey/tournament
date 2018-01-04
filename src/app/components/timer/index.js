@@ -23,7 +23,10 @@ export default class Timer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ time: nextProps.time });
+    //Only update the internal state if recieving a new external time value. (from the api)
+    if (nextProps.time !== this.props.time) {
+      this.setState({ time: nextProps.time });
+    }
   }
 
   tick = () => {

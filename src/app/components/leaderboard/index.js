@@ -29,7 +29,7 @@ const Leaderboard = ({ games, players }) => {
     <div className={styles.root}>
       <h5>LEADERBOARD</h5>
       {data && data.map((d) => (
-        <div className={styles.player}>{`${d.name} : ${d.points}`}</div>
+        <div key={d.name} className={styles.player}>{`${d.name} : ${d.points}`}</div>
       ))}
     </div>
   );

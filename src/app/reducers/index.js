@@ -5,8 +5,8 @@ import errors from './errors';
 import config from './config';
 import info from './info';
 import games from './games';
-import rounds from './rounds';
 import players from './players';
+import auth from './auth';
 
 export default combineReducers({
     router: routerStateReducer,
@@ -14,6 +14,6 @@ export default combineReducers({
     config,
     info,
     games,
-    rounds,
     players,
+    auth,
 });
