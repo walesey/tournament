@@ -129,7 +129,7 @@ export default class HomeView extends Component {
             <button className={buttonStyles.button} onClick={this.onClickNewRound}>New Round</button>
           </div>
           <input className={styles.password} name="Password" type="password" onChange={this.handleInputChange} />
-          <Messages className={styles.messages} loading={loading} error={error} />
+          <Messages className={styles.messages} error={error} />
         </div>
         <div className={styles.right}>
           <div className={styles.leaderboard}>
