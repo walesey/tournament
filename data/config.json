@@ -3,13 +3,16 @@
   "overtimeSeconds": 5400,
   "tables": [
     {
-      "name": "Table 1"
+      "name": "Table 1",
+      "image": "mars.png"
     },
     {
-      "name": "Table 2"
+      "name": "Table 2",
+      "image": "forest.png"
     },
     {
-      "name": "Table 3"
+      "name": "Table 3",
+      "image": "desert.png"
     }
   ],
   "rounds": [

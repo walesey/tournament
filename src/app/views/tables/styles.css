@@ -1,0 +1,13 @@
+.root {
+  text-align: center;
+  padding: 20px;
+}
+
+.table {
+  text-align: center
+}
+
+.image img {
+  margin: 10px;
+  width: 200px;
+}
