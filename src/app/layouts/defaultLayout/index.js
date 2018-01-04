@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import NavBar from 'app/components/NavBar';
+import NavBar from 'app/components/navbar';
 import styles from './styles.css';
 
 const DefaultLayout = ({ children }) => (
