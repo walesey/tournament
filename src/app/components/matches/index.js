@@ -19,8 +19,8 @@ const Matches = ({ games, matcher }) => (
             className={styles.match}>
             <Link to={`/games/${i}`}>{
               (g.results && g.results.length >= 2)
-              ? `${g.round}) ${g.table} : ${player1}(${g.results[0]}) vs ${player2}(${g.results[1]})`
-              : `${g.round}) ${g.table} : ${player1} vs ${player2}`
+              ? `${g.round+1}) ${g.table} : ${player1}(${g.results[0]}) vs ${player2}(${g.results[1]})`
+              : `${g.round+1}) ${g.table} : ${player1} vs ${player2}`
             }</Link>
           </div>
         )] : acc;

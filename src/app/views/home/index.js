@@ -101,7 +101,7 @@ export default class HomeView extends Component {
     } = this.props;
 
     const title = round.title || 'No active round';
-    const image = round.image;
+    const image = (round && round.image) ? round.image : 'default.png';
 
     return (
       <div className={styles.root}>

@@ -40,8 +40,8 @@ export default class GamesView extends Component {
               {
                 (g.players && g.players.length >= 2) &&
                 (g.results && g.results.length >= 2)
-                ? `${g.round}) ${g.table} : ${g.players[0]}(${g.results[0]}) vs ${g.players[1]}(${g.results[1]})`
-                : `${g.round}) ${g.table} : ${g.players[0]} vs ${g.players[1]}`
+                ? `${g.round+1}) ${g.table} : ${g.players[0]}(${g.results[0]}) vs ${g.players[1]}(${g.results[1]})`
+                : `${g.round+1}) ${g.table} : ${g.players[0]} vs ${g.players[1]}`
               }
             </Link>
           </div>
