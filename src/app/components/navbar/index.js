@@ -7,6 +7,7 @@ var cx = classnames.bind(styles);
 
 const NavBar = ({ className }) => (
   <div className={cx('root', className)}>
+    <div className={styles.link}><Link to="/home">Home</Link></div>
     <div className={styles.link}><Link to="/games">Games</Link></div>
     <div className={styles.link}><Link to="/players">Players</Link></div>
   </div>

@@ -11,11 +11,11 @@ const Matches = ({ games, round }) => (
       const player2 = g.players && g.players.length >= 2 && g.players[1];
       return g.round === round ?
         [ ...acc, (
-          <div 
-            key={`${player1}:${player2}`} 
+          <div
+            key={`${player1}:${player2}`}
             className={styles.match}>
             <Link to={`/games/${i}`}>{
-              (g.results && g.results.length >= 2) 
+              (g.results && g.results.length >= 2)
               ? `${g.table} : ${player1}(${g.results[0]}) vs ${player2}(${g.results[1]})`
               : `${g.table} : ${player1} vs ${player2}`
             }</Link>

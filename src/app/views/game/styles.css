@@ -13,3 +13,15 @@
 .input {
   padding: 5px 0;
 }
+
+.submitButton {
+  padding: 10px;
+}
+
+.submitPlayers {
+  padding: 10px;
+}
+
+.password {
+  opacity: 0.5;
+}

@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import config from 'app/config';
-import { getRequest, putRequest } from 'app/lib/http';
+import { genericRequest, getRequest, putRequest } from 'app/lib/http';
 import { getFieldValues } from 'app/lib/forms';
 import { requestGames, setScore } from 'app/actions/games';
+import { setPassword } from 'app/actions/auth';
 
 import buttonStyles from 'app/assets/styles/buttons.css';
 import styles from './styles.css';
 
-const mapStateToProps = ({ games }, { params }) => {
+const mapStateToProps = ({ games, auth }, { params }) => {
   const index = params.game;
   return {
     loading: games.loading,
     error: games.error,
     game: games.games && index < games.games.length && games.games[index],
+    password: auth.password,
     index,
   }
 }
@@ -48,10 +50,25 @@ export default class GameView extends Component {
     this.setState({ [name]: value });
   }
 
+  handlePasswordChange = (event) => {
+    const { value, name } = getFieldValues(event);
+    const { dispatch } = this.props;
+    dispatch(setPassword(value));
+  }
+
   submitScores = () => {
-    const { dispatch, index, game } = this.props;
+    const { dispatch, index } = this.props;
     const { score1, score2 } = this.state;
-    dispatch(putRequest(`${config.apiEndpoint}/games/${index}/results`, [ score1, score2 ], requestGames));
+    const url = `${config.apiEndpoint}/games/${index}/results`;
+    dispatch(putRequest(url, [ score1, score2 ], requestGames));
+  }
+
+  submitPlayers = () => {
+    const { dispatch, password, index } = this.props;
+    const { player1, player2 } = this.state;
+    const headers = { 'Authorization': password };
+    const url = `${config.apiEndpoint}/auth/games/${index}/players`;
+    dispatch(genericRequest(url, [ player1, player2 ], 'PUT', headers, requestGames));
   }
   
   render() {
@@ -74,7 +91,13 @@ export default class GameView extends Component {
           <input className={styles.input} name="score2" type="text" value={score2} onChange={this.handleInputChange} />
         </div>
 
-        <button className={buttonStyles.button} onClick={this.submitScores}>Submit Scores</button>
+        <div className={styles.submitButton}>
+          <button className={buttonStyles.button} onClick={this.submitScores}>Submit Scores</button>
+        </div>
+        <div className={styles.submitPlayers}>
+          <button onClick={this.submitPlayers}>Submit Player Names</button>
+        </div>          
+        <input className={styles.password} name="Password" type="password" onChange={this.handlePasswordChange} />
       </div>
     );
   }

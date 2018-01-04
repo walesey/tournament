@@ -1,7 +1,11 @@
 [
   {
     "table": "Table 1",
-    "round": 0,
+    "round": 1,
+    "results": [
+      5,
+      4
+    ],
     "players": [
       "Player 1",
       "Player 2"
@@ -9,7 +13,11 @@
   },
   {
     "table": "Table 2",
-    "round": 0,
+    "round": 1,
+    "results": [
+      null,
+      5
+    ],
     "players": [
       "Player 3",
       "Player 4"
@@ -17,7 +25,11 @@
   },
   {
     "table": "Table 3",
-    "round": 0,
+    "round": 1,
+    "results": [
+      13,
+      7
+    ],
     "players": [
       "Player 5",
       "Player 6"
@@ -25,25 +37,29 @@
   },
   {
     "table": "Table 1",
-    "round": 1,
+    "round": 2,
+    "results": [],
     "players": [
-      "Player 1",
-      "Player 3"
+      "Player 2",
+      "Player 2"
     ]
   },
   {
     "table": "Table 2",
-    "round": 1,
+    "round": 2,
+    "results": [],
     "players": [
-      "Player 2",
+      "Player 6",
       "Player 4"
     ]
   },
   {
     "table": "Table 3",
-    "round": 1,
+    "round": 2,
+    "results": [],
     "players": [
-      "Player 5"
+      "Player 2",
+      "Player 3"
     ]
   }
 ]
