@@ -3,6 +3,10 @@
   padding: 20px;
 }
 
+.game {
+  margin: 0 0 20px 0;
+}
+
 .game a {
   color: white;
 }
