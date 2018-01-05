@@ -115,6 +115,7 @@ function newRound() {
     ...newGames,
   ]);
   saveState({
+    ...state,
     roundIndex: newRoundIndex,
     timerOn: false,
     timerSeconds: 0,
