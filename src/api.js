@@ -28,8 +28,8 @@ function matchHasOccured(playersNames, games) {
   let occured = false;
   games.forEach(game => {
     let match = true;
-    const players1 = playersNames.sort();
-    const players2 = game.players.sort();
+    const players1 = [ ...playersNames ].sort();
+    const players2 = [ ...game.players ].sort();
     for (let i=0; i<players1.length; i++) {
       if (players1.length !== players2.length || players1[i] !== players2[i]) {
         match = false;
